@@ -1,0 +1,112 @@
+// 产品类
+class Product {
+    private String partA;
+    private String partB;
+    private String partC;
+
+    public void setPartA(String partA) {
+        this.partA = partA;
+    }
+
+    public void setPartB(String partB) {
+        this.partB = partB;
+    }
+
+    public void setPartC(String partC) {
+        this.partC = partC;
+    }
+
+    public String getResult() {
+        return "PartA: " + partA + ", PartB: " + partB + ", PartC: " + partC;
+    }
+}
+
+// 抽象建造者类
+abstract class Builder {
+    protected Product product = new Product();
+
+    public abstract void buildPartA();
+
+    public abstract void buildPartB();
+
+    public abstract void buildPartC();
+
+    public Product getResult() {
+        return product;
+    }
+}
+
+// 具体建造者A
+class ConcreteBuilderA extends Builder {
+    @Override
+    public void buildPartA() {
+        product.setPartA("A");
+    }
+
+    @Override
+    public void buildPartB() {
+        product.setPartB("B");
+    }
+
+    @Override
+    public void buildPartC() {
+        product.setPartC("C");
+    }
+}
+
+// 具体建造者B
+class ConcreteBuilderB extends Builder {
+    @Override
+    public void buildPartA() {
+        product.setPartA("X");
+    }
+
+    @Override
+    public void buildPartB() {
+        product.setPartB("Y");
+    }
+
+    @Override
+    public void buildPartC() {
+        product.setPartC("Z");
+    }
+}
+
+// 指挥者类
+class Director {
+    public void construct(Builder builder) {
+        builder.buildPartA();
+        builder.buildPartB();
+        builder.buildPartC();
+    }
+}
+
+// 客户端代码
+public class Client {
+    public static void main(String[] args) {
+        // 创建指挥者和具体建造者A对象
+        Director director = new Director();
+        ConcreteBuilderA builderA = new ConcreteBuilderA();
+
+        // 指挥者指挥具体建造者A创建产品
+        director.construct(builderA);
+
+        // 获取产品对象
+        Product productA = builderA.getResult();
+
+        // 打印产品信息
+        System.out.println("Builder A result: " + productA.getResult());
+
+        // 创建具体建造者B对象
+        ConcreteBuilderB builderB = new ConcreteBuilderB();
+
+        // 指挥者指挥具体建造者B创建产品
+        director.construct(builderB);
+
+        // 获取产品对象
+        Product productB = builderB.getResult();
+
+        // 打印产品信息
+        System.out.println("Builder B result: " + productB.getResult());
+    }
+}
